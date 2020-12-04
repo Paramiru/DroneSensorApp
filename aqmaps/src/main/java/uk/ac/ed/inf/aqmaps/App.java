@@ -5,9 +5,6 @@ public class App {
 	public static void main(String[] args) throws InterruptedException {
 		var server = new ServerConnection(args);
 		var noFlyZones = server.getNoFlyZones();
-		System.out.println(noFlyZones);
-		// TODO 
-		// var sensors = server.getSensorsToVisit();
-		
+		var sensorsToVisit = server.getSensorsToVisit();
 	}
 }
