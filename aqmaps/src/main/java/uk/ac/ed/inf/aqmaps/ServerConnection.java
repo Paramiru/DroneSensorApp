@@ -14,9 +14,19 @@ public class ServerConnection {
 	public ServerConnection(String[] args) {
 		IO.parseCommandLineArguments(args);
 	}
-
+	
 	protected String getNoFlyZones() throws InterruptedException {
-		var urlString = Constants.SERVER + IO.port + "/buildings/no-fly-zones.geojson";
+		var path = "/buildings/no-fly-zones.geojson";
+		return getRequest(path);
+	}
+	
+	protected String getSensorsToVisit() throws InterruptedException {
+		var path = "";
+		return getRequest(path);
+	}
+
+	protected String getRequest(String path) throws InterruptedException {
+		var urlString = Constants.SERVER + IO.port + path;
 		var request = HttpRequest.newBuilder()
 				.uri(URI.create(urlString))
 				.build();
