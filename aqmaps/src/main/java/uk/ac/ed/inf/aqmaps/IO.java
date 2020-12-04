@@ -1,27 +1,22 @@
 package uk.ac.ed.inf.aqmaps;
 
-import java.time.LocalDate;
-
 import com.mapbox.geojson.Point;
 
 public class IO { 
 	
-	protected static LocalDate date;
+	protected static Date date;
 	protected static Point startingPoint;
 	protected static String seed;
 	protected static String port;
 	
-	protected static void parseCommandLineArguments(String args[]) throws ArrayIndexOutOfBoundsException {
+	protected static void parseArguments(String args[]) throws ArrayIndexOutOfBoundsException {
 		if (args.length < 7) {
-			System.out.print("Need 7 command line arguments; ");
-			System.out.println("Given " + args.length + " in total");
-			throw new ArrayIndexOutOfBoundsException();
+			var detailMessage = "\n\tNeed 7 command line arguments. Given: " + 
+					args.length + "arguments in total";
+			throw new ArrayIndexOutOfBoundsException(detailMessage);
 		} 
 
-		var day = Integer.parseInt(args[0]);
-		var month = Integer.parseInt(args[1]);
-		var year = Integer.parseInt(args[2]);
-		date = LocalDate.of(year, month, day);
+		date = new Date(args[2], args[1], args[0]);
 		
 		var startingLatitude = Double.parseDouble(args[3]);
 		var startingLongitude = Double.parseDouble(args[4]);
@@ -31,4 +26,9 @@ public class IO {
 		port = args[6];
 		
 	}
+
+//	TODO protected static void writeFiles() {}
+
 }
+
+

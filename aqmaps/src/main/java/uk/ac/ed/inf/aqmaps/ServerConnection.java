@@ -12,7 +12,7 @@ public class ServerConnection {
 	private static final HttpClient client = HttpClient.newHttpClient(); 
 	
 	public ServerConnection(String[] args) {
-		IO.parseCommandLineArguments(args);
+		IO.parseArguments(args);
 	}
 	
 	protected String getNoFlyZones() throws InterruptedException {
@@ -21,8 +21,10 @@ public class ServerConnection {
 	}
 	
 	protected String getSensorsToVisit() throws InterruptedException {
-		var path = "";
+		var path = "/maps/" + IO.date.getYear() + "/" + IO.date.getMonth() 
+			+ "/" + IO.date.getDay() + "/" + "air-quality-data.json";
 		return getRequest(path);
+		
 	}
 
 	protected String getRequest(String path) throws InterruptedException {
@@ -55,10 +57,5 @@ public class ServerConnection {
 		
 		return responseBody;
 	}
-	
-//	private getSensorsToVisit() {}
-//	
-//	private getCoordinates() {}
-	
 	
 }
