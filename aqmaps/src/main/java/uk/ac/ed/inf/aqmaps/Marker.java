@@ -1,6 +1,6 @@
 package uk.ac.ed.inf.aqmaps;
 
-public class Colour {
+public class Marker {
 	/**
 	 * Control flow with else if to determine
 	 * in which range the double is found.
@@ -8,7 +8,7 @@ public class Colour {
 	 * @param batteryLevel float
 	 * @return corresponding colour as a String 
 	 */
-	public static String get_colour(float batteryLevel, float reading) {
+	protected static String get_colour(float batteryLevel, float reading) {
 		// Do not consider sensor's reading if battery < 10%
 		if (batteryLevel < 10) return "#000000";
 		if (reading < 32) {
@@ -29,4 +29,12 @@ public class Colour {
 			return "#ff0000";
 		}
 	}
+	
+	protected static String getSymbol(float batteryLevel, float reading) {
+		if (batteryLevel < 10) return "cross";
+		if (reading < 128) return "lighthouse";
+		// 128 <= reading < 256 so return "danger"
+		return "danger";
+	}
+	
 }
