@@ -16,12 +16,12 @@ public class Sensor {
 		var feature = Feature.fromGeometry((Geometry) point);
 		feature.addStringProperty("marker-size", "medium");
 		feature.addStringProperty("location", this.location);
-		var colour = Colour.get_colour(this.battery, Float.parseFloat(this.reading));
+		var colour = Marker.get_colour(this.battery, Float.parseFloat(this.reading));
 		feature.addStringProperty("rgb-string", colour);
 		feature.addStringProperty("marker-color", colour);
-//		TODO
-//		feature.addStringProperty("marker-symbol", value);
-		
+		var symbol = Marker.getSymbol(this.battery, Float.parseFloat(this.reading));
+		feature.addStringProperty("marker-symbol", symbol);
+
 		return feature;
 	}
 	
