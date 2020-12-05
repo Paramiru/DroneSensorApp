@@ -1,23 +1,14 @@
 package uk.ac.ed.inf.aqmaps;
 
-import java.util.ArrayList;
-
-import com.mapbox.geojson.Feature;
-import com.mapbox.geojson.FeatureCollection;
 
 public class App {
 	
 	public static void main(String[] args) throws InterruptedException {
 		var server = new ServerRequest(args);
-		var noFlyZones = server.getNoFlyZones();
+//		var noFlyZones = server.getNoFlyZones();
 		var sensors = server.getSensors();
-		var features = new ArrayList<Feature>();
-		for (Sensor sensor : sensors) {
-			features.add(sensor.getSensorAsFeature());
-		}
-		var featureCollection = FeatureCollection.fromFeatures(features);
-		var jsonString = featureCollection.toJson();
-		System.out.println(jsonString);
+		var dronePath = BuildAqmap.buildMap(sensors, IO.startingPoint);
+		System.out.println(dronePath);
 
 		
 		
@@ -25,3 +16,5 @@ public class App {
 		// REMEMBER THAT NOT VISITED SENSORS SHOULD BE MARKED AS GREY
 	}
 }
+
+//	Check closest sensor. If you need to cross a noFlyZone then check another one.
