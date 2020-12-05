@@ -12,7 +12,7 @@ public class IO {
 	protected static void parseArguments(String args[]) throws ArrayIndexOutOfBoundsException {
 		if (args.length < 7) {
 			var detailMessage = "\n\tNeed 7 command line arguments. Given: " + 
-					args.length + "arguments in total";
+					args.length + " arguments in total";
 			throw new ArrayIndexOutOfBoundsException(detailMessage);
 		} 
 
