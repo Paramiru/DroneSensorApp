@@ -8,21 +8,22 @@ public class Colour {
 	 * @param batteryLevel float
 	 * @return corresponding colour as a String 
 	 */
-	public static String get_colour(float batteryLevel) {
+	public static String get_colour(float batteryLevel, float reading) {
+		// Do not consider sensor's reading if battery < 10%
 		if (batteryLevel < 10) return "#000000";
-		if (batteryLevel < 32) {
+		if (reading < 32) {
 			return "#00ff00";
-		} else if (batteryLevel < 64) {
+		} else if (reading < 64) {
 			return "#40ff00";
-		} else if (batteryLevel < 96) {
+		} else if (reading < 96) {
 			return "#80ff00";
-		} else if (batteryLevel < 128) {
+		} else if (reading < 128) {
 			return "#c0ff00";
-		} else if (batteryLevel < 160) {
+		} else if (reading < 160) {
 			return "#ffc000";
-		} else if (batteryLevel < 192) {
+		} else if (reading < 192) {
 			return "#ff8000";
-		} else if (batteryLevel < 224) {
+		} else if (reading < 224) {
 			return "#ff4000";
 		} else {
 			return "#ff0000";
