@@ -8,31 +8,33 @@ public class Marker {
 	 * @param batteryLevel float
 	 * @return corresponding colour as a String 
 	 */
-	protected static String get_colour(float batteryLevel, float reading) {
+	protected static String getColour(float batteryLevel, String reading) {
 		// Do not consider sensor's reading if battery < 10%
 		if (batteryLevel < 10) return "#000000";
-		if (reading < 32) {
+		var readingAsFloat = Float.parseFloat(reading);
+		if (readingAsFloat < 32) {
 			return "#00ff00";
-		} else if (reading < 64) {
+		} else if (readingAsFloat < 64) {
 			return "#40ff00";
-		} else if (reading < 96) {
+		} else if (readingAsFloat < 96) {
 			return "#80ff00";
-		} else if (reading < 128) {
+		} else if (readingAsFloat < 128) {
 			return "#c0ff00";
-		} else if (reading < 160) {
+		} else if (readingAsFloat < 160) {
 			return "#ffc000";
-		} else if (reading < 192) {
+		} else if (readingAsFloat < 192) {
 			return "#ff8000";
-		} else if (reading < 224) {
+		} else if (readingAsFloat < 224) {
 			return "#ff4000";
 		} else {
 			return "#ff0000";
 		}
 	}
 	
-	protected static String getSymbol(float batteryLevel, float reading) {
+	protected static String getSymbol(float batteryLevel, String reading) {
 		if (batteryLevel < 10) return "cross";
-		if (reading < 128) return "lighthouse";
+		var readingAsFloat = Float.parseFloat(reading);
+		if (readingAsFloat < 128) return "lighthouse";
 		// 128 <= reading < 256 so return "danger"
 		return "danger";
 	}
