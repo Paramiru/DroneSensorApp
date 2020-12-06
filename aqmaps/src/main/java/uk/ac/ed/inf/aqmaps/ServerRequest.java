@@ -23,15 +23,20 @@ public class ServerRequest {
 		IO.parseArguments(args);
 	}
 	
-	protected List<Feature> getNoFlyZones() throws InterruptedException {
+	protected List<NoFlyZone> getNoFlyZones() throws InterruptedException {
 		var path = "/buildings/no-fly-zones.geojson";
 		var source = getRequest(path);
 		var fc = FeatureCollection.fromJson(source);
 		var features = fc.features();
-		return features;
+		var noFlyZones = new ArrayList<NoFlyZone>();
+		for (Feature feature : features) {
+			var noFlyZone = new NoFlyZone(feature);
+			noFlyZones.add(noFlyZone);
+		}
+		return noFlyZones;
 	}
 	
-	protected ArrayList<Sensor> getSensors() throws InterruptedException {
+	protected List<Sensor> getSensors() throws InterruptedException {
 		var path = "/maps/" + IO.date.getYear() + "/" + IO.date.getMonth() 
 			+ "/" + IO.date.getDay() + "/" + "air-quality-data.json";
 		

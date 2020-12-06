@@ -1,7 +1,5 @@
 package uk.ac.ed.inf.aqmaps;
 
-import com.mapbox.geojson.Point;
-
 public class WordsDetails {
 
 	String country;
@@ -24,8 +22,5 @@ public class WordsDetails {
 	String language;
 	String map;
 	
-	protected Point getCoordsAsPoint() {
-		return Point.fromLngLat(coordinates.lng, coordinates.lat);
-	}
 	
 }

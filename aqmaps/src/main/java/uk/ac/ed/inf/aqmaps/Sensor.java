@@ -12,29 +12,31 @@ public class Sensor {
 	// 0.0 <= reading <= 255.0
 	private String reading;
 	
-	protected Point getPointFromSensor() throws InterruptedException {
-		var point = ServerRequest.getWordsAddress(location).getCoordsAsPoint();
-		return point;
+	protected Location getLocationFromSensor() throws InterruptedException {
+		var sensorCoordinates = ServerRequest.getWordsAddress(location).coordinates;
+		var lat = sensorCoordinates.lat;
+		var lng = sensorCoordinates.lng;
+		var location = new Location(lat, lng);
+		return location;
 	}
 	
 	protected Feature getSensorAsFeature() throws InterruptedException {
 		var colour = Marker.get_colour(this.battery, Float.parseFloat(this.reading));
 		var symbol = Marker.getSymbol(this.battery, Float.parseFloat(this.reading));
-		var point = getPointFromSensor();
-		var feature = Feature.fromGeometry((Geometry) point);
+		var location = getLocationFromSensor();
+		var geojsonPoint = location.getGeojsonPoint();
+		var feature = Feature.fromGeometry((Geometry) geojsonPoint);
 		feature.addStringProperty("marker-size", "medium");
 		feature.addStringProperty("location", this.location);
 		feature.addStringProperty("rgb-string", colour);
 		feature.addStringProperty("marker-color", colour);
 		feature.addStringProperty("marker-symbol", symbol);
-
 		return feature;
 	}
 	
 	@Override
 	public String toString() {
-		return "Sensor at \t" + location;
+		return "Sensor at " + this.location;
 	}
-
 	
 }
