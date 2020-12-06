@@ -1,42 +1,68 @@
 package uk.ac.ed.inf.aqmaps;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import com.mapbox.geojson.Feature;
-import com.mapbox.geojson.FeatureCollection;
-import com.mapbox.geojson.Geometry;
+import org.javatuples.Pair;
+import org.javatuples.Triplet;
+import org.locationtech.jts.geom.Coordinate;
+
 
 public class BuildAqmap {
 	
-	
+	protected static ServerRequest server;
+	protected static List<NoFlyZone> noFlyZones;
+	protected static List<Sensor> sensors;
+	//					  Triplet<Angle  , Location, MoveNumber>
+	protected static List<Triplet<Integer, Location, Integer>> chosenMoves = new ArrayList<>();
+
 	protected static void buildMap(String[] args) throws InterruptedException {
-		var server = new ServerRequest(args);
-		var sensors = server.getSensors();
-		var s = Utils.getSensorsToVisitInOrder(sensors, IO.startingPoint);
-		// get possible moves (start, end)
-		// get optimal move (start, end)
+		server = new ServerRequest(args);
+		noFlyZones = server.getNoFlyZones();
+		sensors = Utils.getSensorsToVisitInOrder(server.getSensors(), IO.startingPoint);
+		var nextSensor = sensors.get(0);
+		var nextSensorLocation = nextSensor.getLocationFromSensor();
+		var start = IO.startingPoint;
+		var possibleMoves = getPossibleMoves(start);
+		filterPossibleMoves(start, possibleMoves);
+	}
 	
 
-
+	protected static Location getEndLocation(Location start, Integer angle) {
+		// given start location and angle, calculate what the end location will be
+		var newLatitude = start.latitude() + Constants.MOVE_LENGTH * Math.sin(angle);
+		var newLongitude = start.longitude() + Constants.MOVE_LENGTH * Math.cos(angle);
+		var endLocation = new Location(newLatitude, newLongitude);
+		return endLocation;
+	}
+	protected static boolean isInConfinedArea(Location location) {
+		var point = location.getJtsPoint();
+		return point.within(Constants.confinedArea);
+	}
+	protected static boolean doesIntersectWithNoFlyZones(Location start, Location end) {
+		var coordinates = new Coordinate[] {start.getJtsCoordinate(), end.getJtsCoordinate()};
+		var line = Utils.geometryFactory.createLineString(coordinates);
+		for (NoFlyZone zone : noFlyZones) {
+			if (line.intersects(zone.getJtsPolygon())) return true;
+		}
+		return false;
+	}
+	protected static List<Pair<Integer, Location>> getPossibleMoves(Location start) {
+		var possibleMoves = new ArrayList<Pair<Integer, Location>>();
+		for (int angle = 0; angle <= 350; angle += 10) {
+			var endLocation = getEndLocation(start, angle); 
+			var move = new Pair<Integer, Location>(angle, endLocation);
+			possibleMoves.add(move);
+		}
+		return possibleMoves;
+	}
+	protected static void filterPossibleMoves(Location start, List<Pair<Integer, Location>> possibleMoves) {
+		possibleMoves.removeIf(pair -> !isInConfinedArea(pair.getValue1())  
+				|| doesIntersectWithNoFlyZones( start, pair.getValue1() ) );
 	}
 	
 	
 
 }
-
-
-//1. Closest point and check if it intersects with a noFlyZone
-//- If it intersects then use function to surround area.
-//- otherwise, calculate angle to go there and use modulus so that it is a multiple of 10
-//2. use moves until we are within 0.0002 degrees of th sensor
-//3. add sensor to our visited list
-//4. remove sensor from non-visited list
-//5. keep checking how many moves we have and how many we need to return to the centre. If
-//this value is quite close then go to the starting point even if we have not visited all
-//sensors.
-//6. get a feature list with all the visited sensors as Feature
-//7. add not visited sensors as Features with grey colour though.
-//8. take points and use them to create lineString which will be added to our feature list
-//9. get feature collection.
-//
