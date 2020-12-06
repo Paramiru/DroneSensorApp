@@ -2,7 +2,6 @@ package uk.ac.ed.inf.aqmaps;
 
 import com.mapbox.geojson.Feature;
 import com.mapbox.geojson.Geometry;
-import com.mapbox.geojson.Point;
 
 public class Sensor {
 	// location --> What3Words encoding
@@ -21,8 +20,8 @@ public class Sensor {
 	}
 	
 	protected Feature getSensorAsFeature() throws InterruptedException {
-		var colour = Marker.get_colour(this.battery, Float.parseFloat(this.reading));
-		var symbol = Marker.getSymbol(this.battery, Float.parseFloat(this.reading));
+		var colour = Marker.getColour(this.battery, this.reading);
+		var symbol = Marker.getSymbol(this.battery, this.reading);
 		var location = getLocationFromSensor();
 		var geojsonPoint = location.getGeojsonPoint();
 		var feature = Feature.fromGeometry((Geometry) geojsonPoint);
@@ -31,6 +30,18 @@ public class Sensor {
 		feature.addStringProperty("rgb-string", colour);
 		feature.addStringProperty("marker-color", colour);
 		feature.addStringProperty("marker-symbol", symbol);
+		return feature;
+	}
+	
+	protected Feature getGreySensorAsFeature() throws InterruptedException {
+		var colour = "#aaaaaa";
+		var location = getLocationFromSensor();
+		var geojsonPoint = location.getGeojsonPoint();
+		var feature = Feature.fromGeometry((Geometry) geojsonPoint);
+		feature.addStringProperty("marker-size", "medium");
+		feature.addStringProperty("location", this.location);
+		feature.addStringProperty("rgb-string", colour);
+		feature.addStringProperty("marker-color", colour);
 		return feature;
 	}
 	
