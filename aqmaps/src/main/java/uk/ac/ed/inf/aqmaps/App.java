@@ -7,7 +7,6 @@ public class App {
 		
 		BuildAqmap.buildMap(args);
 		
-		
 		// REMEMBER THAT NOT VISITED SENSORS SHOULD BE MARKED AS GREY
 	}
 }
