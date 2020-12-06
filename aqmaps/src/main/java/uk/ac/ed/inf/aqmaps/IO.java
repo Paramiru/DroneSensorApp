@@ -1,5 +1,9 @@
 package uk.ac.ed.inf.aqmaps;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.List;
+
 public class IO { 
 	
 	protected static Date date;
@@ -26,6 +30,43 @@ public class IO {
 	}
 
 //	TODO protected static void writeFiles() {}
+	protected static void writeReadingFile(String stringToWrite) {
+		var filename = "readings-" + date.getDay() + "-" + date.getMonth() 
+			+ "-" + date.getYear() + ".geojson";
+		try {
+	    	var writer = new FileWriter(filename);
+	    	System.out.println("File " + filename + " created successfully.");
+			writer.append(stringToWrite);
+		    writer.close();
+		} catch (IOException e) {
+			System.out.println("File could not be created");
+			e.printStackTrace();
+		}
+	}
+	protected static void writeFlightpathFile(List<Move> moves) {
+		var filename = "flightpath-" + date.getDay() + "-" + date.getMonth() 
+			+ "-" + date.getYear() + ".txt";
+		var stringToWrite = "";
+		for (Move move : moves) {
+			stringToWrite += move.getMoveNumber() + ",";
+			stringToWrite += move.getStartLocation().longitude() + ",";
+			stringToWrite += move.getStartLocation().latitude() + ",";
+			stringToWrite += move.getAngle() + ",";
+			stringToWrite += move.getEndLocation().longitude() + ",";
+			stringToWrite += move.getEndLocation().latitude() + ",";
+			stringToWrite += move.getLocationOfAssociatedSensor() + "\n";
+		}
+		try {
+	    	var writer = new FileWriter(filename);
+	    	System.out.println("File " + filename + " created successfully.");
+			writer.append(stringToWrite);
+		    writer.close();
+		} catch (IOException e) {
+			System.out.println("File could not be created");
+			e.printStackTrace();
+		}
+		
+	}
 
 }
 
