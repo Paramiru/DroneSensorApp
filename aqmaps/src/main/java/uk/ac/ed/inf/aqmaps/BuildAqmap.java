@@ -39,6 +39,7 @@ public class BuildAqmap {
 		points.add(currentPosition.getGeojsonPoint());
 		
 		while (moveNumber <= Constants.MAX_MOVES) {
+			
 			var possibleMoves = getPossibleMoves(currentPosition);
 			filterPossibleMoves(currentPosition, possibleMoves);
 			
