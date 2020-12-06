@@ -15,6 +15,10 @@ public class Location {
 		this.lat = lat;
 	}
 	
+	public Coordinate getJtsCoordinate() {
+		return new Coordinate(this.lat, this.lng);
+	}
+	
 	public org.locationtech.jts.geom.Point getJtsPoint() {
 		var coord = new Coordinate(this.lat, this.lng);
 		var point = Utils.geometryFactory.createPoint(coord);
