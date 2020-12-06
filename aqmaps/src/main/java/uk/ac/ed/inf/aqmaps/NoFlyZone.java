@@ -1,7 +1,5 @@
 package uk.ac.ed.inf.aqmaps;
 
-import java.util.ArrayList;
-
 import org.locationtech.jts.geom.Coordinate;
 
 import com.mapbox.geojson.Feature;

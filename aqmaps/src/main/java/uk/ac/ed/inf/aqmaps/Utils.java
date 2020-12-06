@@ -1,13 +1,15 @@
 package uk.ac.ed.inf.aqmaps;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 import org.locationtech.jts.geom.GeometryFactory;
 
 import com.mapbox.geojson.Feature;
-import com.mapbox.geojson.FeatureCollection;
-import com.mapbox.geojson.Point;
+import com.mapbox.geojson.Geometry;
+import com.mapbox.geojson.LineString;
 
 
 public class Utils {
@@ -27,18 +29,21 @@ public class Utils {
 		return Math.sqrt(getSquare(x1-x2) + getSquare(y1-y2));
 	}
 	// TODO add LineString to featureCollection
-	protected static String getMapAsJson(List<Sensor> sensors) throws InterruptedException {
+	protected static List<Feature> createFeaturesList(List<Sensor> sensors, LineString lineString) throws InterruptedException {
 		var features = new ArrayList<Feature>();
 		for (Sensor sensor : sensors) {
 			features.add(sensor.getSensorAsFeature());
 		}
-		var featureCollection = FeatureCollection.fromFeatures(features);
-		var jsonString = featureCollection.toJson();
-		return jsonString;
+		var line = Feature.fromGeometry((Geometry) lineString);
+		features.add(line);
+//		var featureCollection = FeatureCollection.fromFeatures(features);
+//		var jsonString = featureCollection.toJson();
+//		return jsonString;
+		return features;
 	}
 	
-	protected static List<Sensor> getSensorsToVisitInOrder(List<Sensor> sensors, Location currentLocation) throws InterruptedException {
-		var sensorsInOrder = new ArrayList<Sensor>();
+	protected static Queue<Sensor> getSensorsToVisitInOrder(List<Sensor> sensors, Location currentLocation) throws InterruptedException {
+		var sensorsInOrder = new LinkedList<Sensor>();
 		while (!sensors.isEmpty()) {
 			Sensor closestSensor = null;
 			int indexOfClosestSensor = -1;
@@ -55,8 +60,12 @@ public class Utils {
 			}
 			currentLocation = closestSensor.getLocationFromSensor();
 			sensorsInOrder.add(closestSensor);
+			System.out.println(closestSensor + " added");
 			sensors.remove(indexOfClosestSensor);
 		}
+		System.out.println();
+		System.out.println("Sensors have been successfully added in order!");
+		System.out.println();
 		return sensorsInOrder;
 	}
 	
