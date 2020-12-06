@@ -15,6 +15,7 @@ public class NoFlyZone {
 		var noFlyZoneGeometry = feature.geometry();
 		var noFlyZonePolygon = (com.mapbox.geojson.Polygon) noFlyZoneGeometry;
 		this.geoJsonPolygon = noFlyZonePolygon;
+		this.makeJtsPolygon();
 	}
 
 	protected void makeJtsPolygon() {
