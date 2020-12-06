@@ -23,6 +23,7 @@ public class BuildAqmap {
 	protected static List<Point> points = new ArrayList<>();
 
 	protected static void buildMap(String[] args) throws InterruptedException {
+		
 		System.out.println("Setting up server...");
 		server = new ServerRequest(args);
 		System.out.println("Server set up");
@@ -48,25 +49,29 @@ public class BuildAqmap {
 			if (newPossibleMoves.size() > 0) { possibleMoves = newPossibleMoves; }
 			
 			var optimalMove = getOptimalMove(currentPosition, nextSensorLocation, ++moveNumber, possibleMoves);
-			System.out.println("Move number " + moveNumber);
-			chosenMoves.add(optimalMove);
-			points.add(optimalMove.getEndLocation().getGeojsonPoint());
 			
 			currentPosition = optimalMove.getEndLocation();
 			
 			var distanceToSensorTarget = Utils.getDistance(currentPosition, nextSensorLocation);
 			if (distanceToSensorTarget < Constants.SENSOR_DISTANCE) { 
-				// add sensor to visited sensors
+
 				visitedSensors.add(nextSensor);
+				optimalMove.setAssociatedSensor(nextSensor.location);
+				
 				if (sensorsToVisit.size() == 0) break;
+				
 				nextSensor = sensorsToVisit.poll();
 				nextSensorLocation = nextSensor.getLocationFromSensor();
 			}
+			
+			System.out.println("Move number " + moveNumber);
+			chosenMoves.add(optimalMove);
+			points.add(optimalMove.getEndLocation().getGeojsonPoint());
 		}
 		
 		System.out.println("Finished checking Sensors");
+		System.out.println("Going back to starting position");
 		while (moveNumber <= Constants.MAX_MOVES) {
-			System.out.println("Going back to starting position");
 			// go back to IO.startingPoint;
 			var possibleMoves = getPossibleMoves(currentPosition);
 			filterPossibleMoves(currentPosition, possibleMoves);
@@ -100,7 +105,8 @@ public class BuildAqmap {
 		var fc = FeatureCollection.fromFeatures(features);
 		var jsonString = fc.toJson();
 
-		System.out.println(jsonString);
+		IO.writeReadingFile(jsonString);
+		IO.writeFlightpathFile(chosenMoves);
 		
 	}
 	
