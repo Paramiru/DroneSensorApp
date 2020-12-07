@@ -24,15 +24,15 @@ public class BuildAqmap {
 
 	protected static void buildMap(String[] args) throws InterruptedException {
 		
-		System.out.println("Setting up server...");
+//		System.out.println("Setting up server...");
 		server = new ServerRequest(args);
-		System.out.println("Server set up");
-		System.out.println("Getting no-fly-zones");
+//		System.out.println("Server set up");
+//		System.out.println("Getting no-fly-zones");
 		noFlyZones = server.getNoFlyZones();
-		System.out.println("No-fly-zones have been obtained from server");
+//		System.out.println("No-fly-zones have been obtained from server");
 		sensorsToVisit = Utils.getSensorsToVisitInOrder(server.getSensors(), IO.startingPoint);
 		
-		var moveNumber = 0;
+		var moveNumber = 1;
 		var currentPosition = IO.startingPoint;
 		var nextSensor = sensorsToVisit.poll();
 		var nextSensorLocation = nextSensor.getLocationFromSensor();
@@ -48,7 +48,7 @@ public class BuildAqmap {
 			newPossibleMoves.removeIf(pair -> isGoingToPreviousPosition(pair));
 			if (newPossibleMoves.size() > 0) { possibleMoves = newPossibleMoves; }
 			
-			var optimalMove = getOptimalMove(currentPosition, nextSensorLocation, ++moveNumber, possibleMoves);
+			var optimalMove = getOptimalMove(currentPosition, nextSensorLocation, moveNumber, possibleMoves);
 			
 			currentPosition = optimalMove.getEndLocation();
 			
@@ -58,19 +58,26 @@ public class BuildAqmap {
 				visitedSensors.add(nextSensor);
 				optimalMove.setAssociatedSensor(nextSensor.location);
 				
-				if (sensorsToVisit.size() == 0) break;
+				if (sensorsToVisit.size() == 0) {
+//					System.out.println("Move number " + moveNumber);
+					chosenMoves.add(optimalMove);
+					moveNumber++;
+					points.add(optimalMove.getEndLocation().getGeojsonPoint());
+					break;
+				}
 				
 				nextSensor = sensorsToVisit.poll();
 				nextSensorLocation = nextSensor.getLocationFromSensor();
 			}
 			
-			System.out.println("Move number " + moveNumber);
+//			System.out.println("Move number " + moveNumber);
 			chosenMoves.add(optimalMove);
+			moveNumber++;
 			points.add(optimalMove.getEndLocation().getGeojsonPoint());
 		}
 		
-		System.out.println("Finished checking Sensors");
-		System.out.println("Going back to starting position");
+//		System.out.println("Finished checking Sensors");
+//		System.out.println("Going back to starting position");
 		while (moveNumber <= Constants.MAX_MOVES) {
 			// go back to IO.startingPoint;
 			var possibleMoves = getPossibleMoves(currentPosition);
@@ -80,8 +87,8 @@ public class BuildAqmap {
 			newPossibleMoves.removeIf(pair -> isGoingToPreviousPosition(pair));
 			if (newPossibleMoves.size() > 0) possibleMoves = newPossibleMoves;
 			
-			var optimalMove = getOptimalMove(currentPosition, IO.startingPoint, ++moveNumber, possibleMoves);
-			System.out.println("Move number " + moveNumber);
+			var optimalMove = getOptimalMove(currentPosition, IO.startingPoint, moveNumber, possibleMoves);
+//			System.out.println("Move number " + moveNumber);
 			chosenMoves.add(optimalMove);
 			points.add(optimalMove.getEndLocation().getGeojsonPoint());
 			
@@ -91,6 +98,7 @@ public class BuildAqmap {
 			if (distanceToStartingPoint < Constants.MOVE_LENGTH) { 
 				break;
 			}
+			moveNumber++;
 		}
 		
 		var lineString = LineString.fromLngLats(points);
@@ -112,8 +120,9 @@ public class BuildAqmap {
 	
 	protected static Location getEndLocation(Location start, Integer angle) {
 		// given start location and angle, calculate what the end location will be
-		var newLatitude = start.latitude() + Constants.MOVE_LENGTH * Math.sin(angle);
-		var newLongitude = start.longitude() + Constants.MOVE_LENGTH * Math.cos(angle);
+		var angleInRadians = Math.toRadians(angle);
+		var newLatitude = start.latitude() + Constants.MOVE_LENGTH * Math.sin(angleInRadians);
+		var newLongitude = start.longitude() + Constants.MOVE_LENGTH * Math.cos(angleInRadians);
 		var endLocation = new Location(newLatitude, newLongitude);
 		return endLocation;
 	}

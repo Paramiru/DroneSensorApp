@@ -60,12 +60,12 @@ public class Utils {
 			}
 			currentLocation = closestSensor.getLocationFromSensor();
 			sensorsInOrder.add(closestSensor);
-			System.out.println(closestSensor + " added");
+//			System.out.println(closestSensor + " added");
 			sensors.remove(indexOfClosestSensor);
 		}
-		System.out.println();
-		System.out.println("Sensors have been successfully added in order!");
-		System.out.println();
+//		System.out.println();
+//		System.out.println("Sensors have been successfully added in order!");
+//		System.out.println();
 		return sensorsInOrder;
 	}
 	
