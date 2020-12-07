@@ -28,7 +28,7 @@ public class Utils {
 		var y2 = p2.longitude();
 		return Math.sqrt(getSquare(x1-x2) + getSquare(y1-y2));
 	}
-	// TODO add LineString to featureCollection
+
 	protected static List<Feature> createFeaturesList(List<Sensor> sensors, LineString lineString) throws InterruptedException {
 		var features = new ArrayList<Feature>();
 		for (Sensor sensor : sensors) {
@@ -36,9 +36,6 @@ public class Utils {
 		}
 		var line = Feature.fromGeometry((Geometry) lineString);
 		features.add(line);
-//		var featureCollection = FeatureCollection.fromFeatures(features);
-//		var jsonString = featureCollection.toJson();
-//		return jsonString;
 		return features;
 	}
 	
@@ -60,12 +57,8 @@ public class Utils {
 			}
 			currentLocation = closestSensor.getLocationFromSensor();
 			sensorsInOrder.add(closestSensor);
-//			System.out.println(closestSensor + " added");
 			sensors.remove(indexOfClosestSensor);
 		}
-//		System.out.println();
-//		System.out.println("Sensors have been successfully added in order!");
-//		System.out.println();
 		return sensorsInOrder;
 	}
 	

@@ -2,10 +2,11 @@ package uk.ac.ed.inf.aqmaps;
 
 public class Marker {
 	/**
-	 * Control flow with else if to determine
-	 * in which range the double is found.
+	 * Control flow to determine
+	 * in which range the batteryLevel is found.
 	 * 
 	 * @param batteryLevel float
+	 * @param reading String
 	 * @return corresponding colour as a String 
 	 */
 	protected static String getColour(float batteryLevel, String reading) {

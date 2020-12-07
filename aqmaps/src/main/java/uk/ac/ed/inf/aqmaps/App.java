@@ -4,9 +4,8 @@ public class App {
 	
 	public static void main(String[] args) throws InterruptedException {
 		
-		BuildAqmap.buildMap(args);
-		
-		// REMEMBER THAT NOT VISITED SENSORS SHOULD BE MARKED AS GREY
+		BuildAqmap.setUpMap(args);
+		BuildAqmap.buildMap();
 	}
 }
 

@@ -5,6 +5,8 @@ import org.locationtech.jts.geom.Polygon;
 
 public class Constants {
 
+	// Class containing the constants being used 
+	// during the whole project
 	protected static final Coordinate TOP_LEFT = new Coordinate(55.946233, -3.192473);
 	protected static final Coordinate TOP_RIGHT = new Coordinate(55.946233, -3.184319);
 	protected static final Coordinate BOTTOM_LEFT = new Coordinate(55.942617, -3.192473);

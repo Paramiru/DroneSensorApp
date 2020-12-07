@@ -21,9 +21,14 @@ public class BuildAqmap {
 	protected static List<Move> chosenMoves = new ArrayList<>();
 	protected static List<Sensor> visitedSensors = new ArrayList<>();
 	protected static List<Point> points = new ArrayList<>();
+	
+	protected static int moveNumber = 1;
+	protected static Location currentLocation;
+	protected static Sensor nextSensorToVisit;
+	protected static Location nextGoalLocationForTheDrone;
+	
 
-	protected static void buildMap(String[] args) throws InterruptedException {
-		
+	protected static void setUpMap(String[] args) throws InterruptedException {
 //		System.out.println("Setting up server...");
 		server = new ServerRequest(args);
 //		System.out.println("Server set up");
@@ -31,76 +36,69 @@ public class BuildAqmap {
 		noFlyZones = server.getNoFlyZones();
 //		System.out.println("No-fly-zones have been obtained from server");
 		sensorsToVisit = Utils.getSensorsToVisitInOrder(server.getSensors(), IO.startingPoint);
+		currentLocation = IO.startingPoint;
+		points.add(currentLocation.getGeojsonPoint());
+		nextSensorToVisit = sensorsToVisit.poll();
+		nextGoalLocationForTheDrone = nextSensorToVisit.getLocationFromSensor();
+	}
+	
+	protected static Move makeOptimalMove() {
+		var possibleMoves = getPossibleMoves(currentLocation);
+		filterPossibleMoves(currentLocation, possibleMoves);
 		
-		var moveNumber = 1;
-		var currentPosition = IO.startingPoint;
-		var nextSensor = sensorsToVisit.poll();
-		var nextSensorLocation = nextSensor.getLocationFromSensor();
+		var newPossibleMoves = possibleMoves;
+		newPossibleMoves.removeIf(pair -> isGoingToPreviousPosition(pair));
+		if (newPossibleMoves.size() > 0) { possibleMoves = newPossibleMoves; }
 		
-		points.add(currentPosition.getGeojsonPoint());
-		
-		while (moveNumber <= Constants.MAX_MOVES) {
+		var optimalMove = getOptimalMove(currentLocation, nextGoalLocationForTheDrone, moveNumber, possibleMoves);
+		return optimalMove;
+	}
+	
+	protected static void collectSensors() throws InterruptedException {
+//		System.out.println("Drone starting to move beep beep beep");
+		while (moveNumber <= Constants.MAX_MOVES && nextSensorToVisit != null) {
 			
-			var possibleMoves = getPossibleMoves(currentPosition);
-			filterPossibleMoves(currentPosition, possibleMoves);
+			var optimalMove = makeOptimalMove();
+			currentLocation = optimalMove.getEndLocation();
 			
-			var newPossibleMoves = possibleMoves;
-			newPossibleMoves.removeIf(pair -> isGoingToPreviousPosition(pair));
-			if (newPossibleMoves.size() > 0) { possibleMoves = newPossibleMoves; }
-			
-			var optimalMove = getOptimalMove(currentPosition, nextSensorLocation, moveNumber, possibleMoves);
-			
-			currentPosition = optimalMove.getEndLocation();
-			
-			var distanceToSensorTarget = Utils.getDistance(currentPosition, nextSensorLocation);
+			// if sensor is in range we collect it and
+			// make drone focus on the next sensor
+			var distanceToSensorTarget = Utils.getDistance(currentLocation, nextGoalLocationForTheDrone);
 			if (distanceToSensorTarget < Constants.SENSOR_DISTANCE) { 
 
-				visitedSensors.add(nextSensor);
-				optimalMove.setAssociatedSensor(nextSensor.location);
+				visitedSensors.add(nextSensorToVisit);
+				optimalMove.setAssociatedSensor(nextSensorToVisit.location);
 				
-				if (sensorsToVisit.size() == 0) {
-//					System.out.println("Move number " + moveNumber);
-					chosenMoves.add(optimalMove);
-					moveNumber++;
-					points.add(optimalMove.getEndLocation().getGeojsonPoint());
-					break;
-				}
-				
-				nextSensor = sensorsToVisit.poll();
-				nextSensorLocation = nextSensor.getLocationFromSensor();
+				nextSensorToVisit = sensorsToVisit.poll();
+				if (nextSensorToVisit != null ) { nextGoalLocationForTheDrone = nextSensorToVisit.getLocationFromSensor(); }
 			}
 			
-//			System.out.println("Move number " + moveNumber);
 			chosenMoves.add(optimalMove);
-			moveNumber++;
 			points.add(optimalMove.getEndLocation().getGeojsonPoint());
+			moveNumber++;
 		}
 		
-//		System.out.println("Finished checking Sensors");
-//		System.out.println("Going back to starting position");
+	}
+	
+	protected static void goBackToStartingLocation() {
+		// Tell the drone it must focus on the starting Location
+		nextGoalLocationForTheDrone = IO.startingPoint;
 		while (moveNumber <= Constants.MAX_MOVES) {
-			// go back to IO.startingPoint;
-			var possibleMoves = getPossibleMoves(currentPosition);
-			filterPossibleMoves(currentPosition, possibleMoves);
 			
-			var newPossibleMoves = possibleMoves;
-			newPossibleMoves.removeIf(pair -> isGoingToPreviousPosition(pair));
-			if (newPossibleMoves.size() > 0) possibleMoves = newPossibleMoves;
-			
-			var optimalMove = getOptimalMove(currentPosition, IO.startingPoint, moveNumber, possibleMoves);
-//			System.out.println("Move number " + moveNumber);
+			var optimalMove = makeOptimalMove();
 			chosenMoves.add(optimalMove);
 			points.add(optimalMove.getEndLocation().getGeojsonPoint());
+			currentLocation = optimalMove.getEndLocation();
 			
-			currentPosition = optimalMove.getEndLocation();
-			
-			var distanceToStartingPoint = Utils.getDistance(currentPosition, IO.startingPoint);
+			var distanceToStartingPoint = Utils.getDistance(currentLocation, IO.startingPoint);
 			if (distanceToStartingPoint < Constants.MOVE_LENGTH) { 
 				break;
 			}
 			moveNumber++;
 		}
-		
+	}
+	
+	protected static String createGeojsonMap() throws InterruptedException {
 		var lineString = LineString.fromLngLats(points);
 		var features = Utils.createFeaturesList(visitedSensors, lineString);
 		
@@ -112,9 +110,27 @@ public class BuildAqmap {
 		
 		var fc = FeatureCollection.fromFeatures(features);
 		var jsonString = fc.toJson();
-
+		return jsonString;
+	}
+	
+	protected static void writeFiles(String jsonString) {
 		IO.writeReadingFile(jsonString);
 		IO.writeFlightpathFile(chosenMoves);
+	}
+	
+	protected static void buildMap() throws InterruptedException {
+				
+		collectSensors();
+		
+//		System.out.println("Finished checking Sensors");
+//		System.out.println("Going back to starting position");
+		
+		goBackToStartingLocation();
+		
+		var jsonString = createGeojsonMap();
+		
+		writeFiles(jsonString);
+		
 		
 	}
 	

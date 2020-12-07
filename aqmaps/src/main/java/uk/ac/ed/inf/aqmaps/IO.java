@@ -29,13 +29,12 @@ public class IO {
 		
 	}
 
-//	TODO protected static void writeFiles() {}
 	protected static void writeReadingFile(String stringToWrite) {
 		var filename = "readings-" + date.getDay() + "-" + date.getMonth() 
 			+ "-" + date.getYear() + ".geojson";
 		try {
 	    	var writer = new FileWriter(filename);
-	    	System.out.println("File " + filename + " created successfully.");
+//	    	System.out.println("File " + filename + " created successfully.");
 			writer.append(stringToWrite);
 		    writer.close();
 		} catch (IOException e) {
@@ -43,6 +42,7 @@ public class IO {
 			e.printStackTrace();
 		}
 	}
+	
 	protected static void writeFlightpathFile(List<Move> moves) {
 		var filename = "flightpath-" + date.getDay() + "-" + date.getMonth() 
 			+ "-" + date.getYear() + ".txt";
@@ -58,7 +58,7 @@ public class IO {
 		}
 		try {
 	    	var writer = new FileWriter(filename);
-	    	System.out.println("File " + filename + " created successfully.");
+//	    	System.out.println("File " + filename + " created successfully.");
 			writer.append(stringToWrite);
 		    writer.close();
 		} catch (IOException e) {
