@@ -2,6 +2,11 @@ package uk.ac.ed.inf.aqmaps;
 
 public class WordsDetails {
 
+	
+	/**
+	 * Class to deserialise What3Words location from the
+	 * server and use it to get its coordinates.
+	 */
 	String country;
 	Square square;
 	

@@ -11,6 +11,15 @@ public class IO {
 	protected static String seed;
 	protected static String port;
 	
+	/**
+	 * Uses the command line arguments to set up
+	 * the date, the starting location, the seed 
+	 * and the port.
+	 * 
+	 * @param args the arguments to be parsed
+	 * @throws ArrayIndexOutOfBoundsException if the given arguments
+	 * 										  are less than 7
+	 */
 	protected static void parseArguments(String args[]) throws ArrayIndexOutOfBoundsException {
 		if (args.length < 7) {
 			var detailMessage = "\n\tNeed 7 command line arguments. Given: " + 
@@ -29,12 +38,20 @@ public class IO {
 		
 	}
 
+	/**
+	 * Creates the readings file corresponding to the date given
+	 * with the command line arguments and writes to it the json
+	 * string representing the air quality map given as argument.
+	 * 
+	 * @param stringToWrite string which will be written to the 
+	 * 						created readings file
+	 */
 	protected static void writeReadingFile(String stringToWrite) {
 		var filename = "readings-" + date.getDay() + "-" + date.getMonth() 
 			+ "-" + date.getYear() + ".geojson";
 		try {
 	    	var writer = new FileWriter(filename);
-//	    	System.out.println("File " + filename + " created successfully.");
+	    	System.out.println("File " + filename + " created successfully.");
 			writer.append(stringToWrite);
 		    writer.close();
 		} catch (IOException e) {
@@ -43,6 +60,14 @@ public class IO {
 		}
 	}
 	
+	/**
+	 * Creates the flightpath file corresponding to the date given
+	 * with the command line arguments and writes to it every single
+	 * move the drone performed following the format given in the
+	 * coursework specification.
+	 * 
+	 * @param moves list of moves performed by the drone 					
+	 */
 	protected static void writeFlightpathFile(List<Move> moves) {
 		var filename = "flightpath-" + date.getDay() + "-" + date.getMonth() 
 			+ "-" + date.getYear() + ".txt";
@@ -58,8 +83,9 @@ public class IO {
 		}
 		try {
 	    	var writer = new FileWriter(filename);
-//	    	System.out.println("File " + filename + " created successfully.");
+	    	System.out.println("File " + filename + " created successfully.");
 			writer.append(stringToWrite);
+			
 		    writer.close();
 		} catch (IOException e) {
 			System.out.println("File could not be created");

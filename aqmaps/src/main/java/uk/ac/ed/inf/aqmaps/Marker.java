@@ -2,12 +2,16 @@ package uk.ac.ed.inf.aqmaps;
 
 public class Marker {
 	/**
-	 * Control flow to determine
-	 * in which range the batteryLevel is found.
+	 * Returns a String which represents the colour
+	 * the sensor will have with the given arguments.
 	 * 
-	 * @param batteryLevel float
-	 * @param reading String
-	 * @return corresponding colour as a String 
+	 * This method uses simple control flow to determine the 
+	 * range of batteryLevel and give the corresponding colour.
+	 * 
+	 * @param batteryLevel  level of the sensor's battery
+	 * @param reading 		the reading from the sensor as 
+	 * 						a String
+	 * @return 				colour of the sensor
 	 */
 	protected static String getColour(float batteryLevel, String reading) {
 		// Do not consider sensor's reading if battery < 10%
@@ -32,11 +36,20 @@ public class Marker {
 		}
 	}
 	
+	/**
+	 * Returns a String which represents the name of the
+	 * symbol to use for a Sensor which has the given
+	 * batteryLevel and reading.
+	 * 
+	 * @param batteryLevel	the level of the sensor's battery
+	 * @param reading		the reading from the sensor as
+	 * @return				the symbol corresponding to the 
+	 * 						sensor's attributes
+	 */
 	protected static String getSymbol(float batteryLevel, String reading) {
 		if (batteryLevel < 10) return "cross";
 		var readingAsFloat = Float.parseFloat(reading);
 		if (readingAsFloat < 128) return "lighthouse";
-		// 128 <= reading < 256 so return "danger"
 		return "danger";
 	}
 	

@@ -57,18 +57,15 @@ public class BuildAqmap {
 	protected static void collectSensors() throws InterruptedException {
 //		System.out.println("Drone starting to move beep beep beep");
 		while (moveNumber <= Constants.MAX_MOVES && nextSensorToVisit != null) {
-			
 			var optimalMove = makeOptimalMove();
 			currentLocation = optimalMove.getEndLocation();
 			
-			// if sensor is in range we collect it and
-			// make drone focus on the next sensor
 			var distanceToSensorTarget = Utils.getDistance(currentLocation, nextGoalLocationForTheDrone);
 			if (distanceToSensorTarget < Constants.SENSOR_DISTANCE) { 
-
+				// sensor is in range so we collect it
 				visitedSensors.add(nextSensorToVisit);
 				optimalMove.setAssociatedSensor(nextSensorToVisit.location);
-				
+				// make drone focus on the next sensor
 				nextSensorToVisit = sensorsToVisit.poll();
 				if (nextSensorToVisit != null ) { nextGoalLocationForTheDrone = nextSensorToVisit.getLocationFromSensor(); }
 			}
