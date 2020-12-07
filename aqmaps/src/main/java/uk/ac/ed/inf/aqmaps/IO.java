@@ -51,7 +51,7 @@ public class IO {
 			+ "-" + date.getYear() + ".geojson";
 		try {
 	    	var writer = new FileWriter(filename);
-	    	System.out.println("File " + filename + " created successfully.");
+//	    	System.out.println("File " + filename + " created successfully.");
 			writer.append(stringToWrite);
 		    writer.close();
 		} catch (IOException e) {
@@ -83,7 +83,7 @@ public class IO {
 		}
 		try {
 	    	var writer = new FileWriter(filename);
-	    	System.out.println("File " + filename + " created successfully.");
+//	    	System.out.println("File " + filename + " created successfully.");
 			writer.append(stringToWrite);
 			
 		    writer.close();
