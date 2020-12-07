@@ -19,10 +19,23 @@ public class ServerRequest {
 	
 	private static final HttpClient client = HttpClient.newHttpClient(); 
 	
+	/**
+	 * Class constructor which makes sure to parse the 
+	 * arguments given in the command line.
+	 * 
+	 * @param args arguments from the command line
+	 */
 	public ServerRequest(String[] args) {
 		IO.parseArguments(args);
 	}
 	
+	/**
+	 * Returns a list of NoFlyZone members representing
+	 * each of the no fly zones obtained from the web server.
+	 * 
+	 * @return list of no fly zones as NoFlyZone objects
+	 * @throws InterruptedException
+	 */
 	protected List<NoFlyZone> getNoFlyZones() throws InterruptedException {
 		var path = "/buildings/no-fly-zones.geojson";
 		var source = getRequest(path);
@@ -36,6 +49,13 @@ public class ServerRequest {
 		return noFlyZones;
 	}
 	
+	/**
+	 * Returns list of sensors to be visited by the drone
+	 * in a given date.
+	 * 
+	 * @return list of sensors as Sensor objects
+	 * @throws InterruptedException
+	 */
 	protected List<Sensor> getSensors() throws InterruptedException {
 		var path = "/maps/" + IO.date.getYear() + "/" + IO.date.getMonth() 
 			+ "/" + IO.date.getDay() + "/" + "air-quality-data.json";
@@ -47,6 +67,15 @@ public class ServerRequest {
 		return sensors;
 	}
 	
+	/**
+	 * Returns an object of the WordsDetails class representing
+	 * the address of the What3Words string given as argument after
+	 * deserialising it.
+	 * 
+	 * @param words
+	 * @return
+	 * @throws InterruptedException
+	 */
 	protected static WordsDetails getWordsAddress(String words) throws InterruptedException {
 		var splittedWords = words.split("\\.");
 		var path = "/words/" + splittedWords[0] + "/" + splittedWords[1] 
@@ -58,6 +87,19 @@ public class ServerRequest {
 		return address;
 	}
 
+	/**
+	 * Performs a get request with the given argument
+	 * as the path connecting to our WebServer in the
+	 * port provided as a command line argument.
+	 * 
+	 * Returns the result as a String which can be
+	 * deserialized.
+	 * 
+	 * @param path	path to be used for the get Request
+	 * @return      string containing the result of
+	 * 	 			the request
+	 * @throws InterruptedException
+	 */
 	protected static String getRequest(String path) throws InterruptedException {
 		var urlString = Constants.SERVER + IO.port + path;
 		var request = HttpRequest.newBuilder()
