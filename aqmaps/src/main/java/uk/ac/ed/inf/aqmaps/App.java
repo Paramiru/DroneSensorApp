@@ -7,4 +7,3 @@ public class App {
 		BuildAqmap.buildMap();
 	}
 }
-

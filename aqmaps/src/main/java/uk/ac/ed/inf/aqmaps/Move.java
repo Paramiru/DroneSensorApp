@@ -19,7 +19,7 @@ public class Move {
 	 * @param angle   the angle / direction used by the drone
 	 * 				  to move from start to end
 	 */
-	public Move(Location start, Location end, int number, int angle) {
+	protected Move(Location start, Location end, int number, int angle) {
 		this.start = start;
 		this.end = end;
 		this.moveNumber = number;
@@ -29,33 +29,35 @@ public class Move {
 	/**
 	 * @return angle used by drone (as an int)
 	 */
-	public int getAngle() { return this.angle; }
+	protected int getAngle() { return this.angle; }
 	
 	/**
 	 * @return number of the drone's move
 	 */
-	public int getMoveNumber() { return this.moveNumber; }
+	protected int getMoveNumber() { return this.moveNumber; }
 	
 	/**
 	 * @return location from which the drone started
 	 * 		   in this move
 	 */
-	public Location getStartLocation() { return this.start; }
+	protected Location getStartLocation() { return this.start; }
 	
 	/** 
 	 * @return location where drone finalized the move
 	 */
-	public Location getEndLocation() { return this.end; }
-	
-	/** 
-	 * @param location of the closest sensor to associate it with
-	 * 		  the move of the drone if the sensor is in range.
-	 */
-	public void setAssociatedSensor(String location) { this.locationOfAssociatedSensor = location; }
+	protected Location getEndLocation() { return this.end; }
 	
 	/**
 	 * @return location of the closest sensor associated with
 	 * 	       the move if that sensor was in range.
 	 */
-	public String getLocationOfAssociatedSensor() { return this.locationOfAssociatedSensor; }
+	protected String getLocationOfAssociatedSensor() { return this.locationOfAssociatedSensor; }
+	
+	/** 
+	 * @param location of the closest sensor to associate it with
+	 * 		  the move of the drone if the sensor is in range.
+	 */
+	protected void setAssociatedSensor(String location) { this.locationOfAssociatedSensor = location; }
+	
 }
+

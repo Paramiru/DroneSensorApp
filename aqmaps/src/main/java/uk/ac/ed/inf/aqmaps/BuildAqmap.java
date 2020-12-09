@@ -39,8 +39,8 @@ public class BuildAqmap {
 //		System.out.println("Getting no-fly-zones");
 		noFlyZones = server.getNoFlyZones();
 //		System.out.println("No-fly-zones have been obtained from server");
-		sensorsToVisit = Utils.getSensorsToVisitInOrder(server.getSensors(), IO.startingPoint);
-		currentLocation = IO.startingPoint;
+		sensorsToVisit = Utils.getSensorsToVisitInOrder(server.getSensors(), IO.startingLocation);
+		currentLocation = IO.startingLocation;
 		points.add(currentLocation.getGeojsonPoint());
 		nextSensorToVisit = sensorsToVisit.poll();
 		nextGoalLocationForTheDrone = nextSensorToVisit.getLocationFromSensor();
@@ -62,7 +62,7 @@ public class BuildAqmap {
 	 * 
 	 * @return most optimal move
 	 */
-	protected static Move makeOptimalMove() {
+	protected static Move makeGreedyMove() {
 		var possibleMoves = BuildAqmapUtils.getPossibleMoves(currentLocation);
 		BuildAqmapUtils.filterPossibleMoves(currentLocation, possibleMoves);
 		
@@ -85,7 +85,7 @@ public class BuildAqmap {
 	protected static void collectSensors() throws InterruptedException {
 //		System.out.println("Drone starting to move beep beep beep");
 		while (moveNumber <= Constants.MAX_MOVES && nextSensorToVisit != null) {
-			var optimalMove = makeOptimalMove();
+			var optimalMove = makeGreedyMove();
 			currentLocation = optimalMove.getEndLocation();
 			
 			var distanceToSensorTarget = Utils.getDistance(currentLocation, nextGoalLocationForTheDrone);
@@ -113,15 +113,15 @@ public class BuildAqmap {
 	 */
 	protected static void goBackToStartingLocation() {
 		// Tell the drone it must focus on the starting Location
-		nextGoalLocationForTheDrone = IO.startingPoint;
+		nextGoalLocationForTheDrone = IO.startingLocation;
 		while (moveNumber <= Constants.MAX_MOVES) {
 			
-			var optimalMove = makeOptimalMove();
+			var optimalMove = makeGreedyMove();
 			chosenMoves.add(optimalMove);
 			points.add(optimalMove.getEndLocation().getGeojsonPoint());
 			currentLocation = optimalMove.getEndLocation();
 			
-			var distanceToStartingPoint = Utils.getDistance(currentLocation, IO.startingPoint);
+			var distanceToStartingPoint = Utils.getDistance(currentLocation, IO.startingLocation);
 			if (distanceToStartingPoint < Constants.MOVE_LENGTH) { 
 				break;
 			}

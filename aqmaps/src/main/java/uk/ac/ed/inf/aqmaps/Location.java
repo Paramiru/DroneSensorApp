@@ -16,7 +16,7 @@ public class Location {
 	 * @param lat the latitude of the point
 	 * @param lng the longitude of the point
 	 */
-	public Location(double lat, double lng) {
+	protected Location(double lat, double lng) {
 		this.lng = lng;
 		this.lat = lat;
 	}
@@ -27,7 +27,7 @@ public class Location {
 	 * @return the coordinate of the point with the specified
 	 * 		   latitude and longitude.
 	 */
-	public Coordinate getJtsCoordinate() {
+	protected Coordinate getJtsCoordinate() {
 		return new Coordinate(this.lat, this.lng);
 	}
 	
@@ -37,8 +37,8 @@ public class Location {
 	 * @return the jts point with the specified latitude
 	 * 		   and longitude.
 	 */
-	public org.locationtech.jts.geom.Point getJtsPoint() {
-		var coord = new Coordinate(this.lat, this.lng);
+	protected org.locationtech.jts.geom.Point getJtsPoint() {
+		var coord = getJtsCoordinate();
 		var point = Utils.geometryFactory.createPoint(coord);
 		return point;
 	}
@@ -49,21 +49,21 @@ public class Location {
 	 * @return GeoJson point with the specified latitude
 	 * 		   and longitude.
 	 */
-	public com.mapbox.geojson.Point getGeojsonPoint() {
+	protected com.mapbox.geojson.Point getGeojsonPoint() {
 		return Point.fromLngLat(this.lng, this.lat);
 	}
 	
 	/** 
 	 * @return latitude of the specified point.
 	 */
-	public double latitude() {
+	protected double latitude() {
 		return this.lat;
 	}
 	
 	/**
 	 * @return longitude of the specified point.
 	 */
-	public double longitude() {
+	protected double longitude() {
 		return this.lng;
 	}
 

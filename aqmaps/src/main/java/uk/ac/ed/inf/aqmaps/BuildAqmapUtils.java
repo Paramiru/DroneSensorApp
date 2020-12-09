@@ -38,9 +38,9 @@ public class BuildAqmapUtils {
 	 * @return          true if location is inside the confined area
 	 * 		            false otherwise
 	 */
-	protected static boolean isInConfinedArea(Location location) {
+	private static boolean isInConfinedArea(Location location) {
 		var point = location.getJtsPoint();
-		return point.within(Constants.confinedArea);
+		return point.within(Constants.CONFINED_AREA);
 	}
 	
 	/**
@@ -54,7 +54,7 @@ public class BuildAqmapUtils {
 	 * @param end   location to which the drone will go
 	 * @return      true if it intersects. false otherwise
 	 */
-	protected static boolean doesIntersectWithNoFlyZones(Location start, Location end) {
+	private static boolean doesIntersectWithNoFlyZones(Location start, Location end) {
 		var coordinates = new Coordinate[] {start.getJtsCoordinate(), end.getJtsCoordinate()};
 		var line = Utils.geometryFactory.createLineString(coordinates);
 		for (NoFlyZone zone : BuildAqmap.noFlyZones) {

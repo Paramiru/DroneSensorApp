@@ -1,7 +1,6 @@
 package uk.ac.ed.inf.aqmaps;
 
 public class WordsDetails {
-
 	
 	/**
 	 * Class to deserialise What3Words location from the
@@ -10,7 +9,7 @@ public class WordsDetails {
 	String country;
 	Square square;
 	
-	public static class Square {
+	protected class Square {
 		Coordinates southwest;
 		Coordinates northeast;
 	}
@@ -18,7 +17,7 @@ public class WordsDetails {
 	String nearestPlace;
 	Coordinates coordinates;
 	
-	public static class Coordinates {
+	protected class Coordinates {
 		double lng;
 		double lat;
 	}

@@ -7,7 +7,7 @@ import java.util.List;
 public class IO { 
 	
 	protected static Date date;
-	protected static Location startingPoint;
+	protected static Location startingLocation;
 	protected static String seed;
 	protected static String port;
 	
@@ -31,7 +31,7 @@ public class IO {
 		
 		var startingLatitude = Double.parseDouble(args[3]);
 		var startingLongitude = Double.parseDouble(args[4]);
-		startingPoint = new Location(startingLatitude, startingLongitude);
+		startingLocation = new Location(startingLatitude, startingLongitude);
 		
 		seed = args[5];
 		port = args[6];
@@ -52,7 +52,6 @@ public class IO {
 		try {
 	    	var writer = new FileWriter(filename);
 //	    	System.out.println("File " + filename + " created successfully.");
-			writer.append(stringToWrite);
 		    writer.close();
 		} catch (IOException e) {
 			System.out.println("File could not be created");

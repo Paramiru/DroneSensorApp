@@ -17,7 +17,7 @@ import com.mapbox.geojson.FeatureCollection;
 
 public class ServerRequest {
 	
-	private static final HttpClient client = HttpClient.newHttpClient(); 
+	private static final HttpClient CLIENT = HttpClient.newHttpClient(); 
 	
 	/**
 	 * Class constructor which makes sure to parse the 
@@ -107,7 +107,7 @@ public class ServerRequest {
 				.build();
 		var responseBody = "";
 		try {
-			var response = client.send(request, BodyHandlers.ofString());
+			var response = CLIENT.send(request, BodyHandlers.ofString());
 			if (response.statusCode() == 200) {
 				responseBody = response.body();
 			} else if (response.statusCode() == 404){

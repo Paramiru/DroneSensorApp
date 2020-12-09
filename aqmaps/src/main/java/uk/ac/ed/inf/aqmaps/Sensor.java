@@ -14,7 +14,7 @@ public class Sensor {
 	
 	/**
 	 * Returns the location of the sensor using the field 
-	 * conntaining the What3Words encoding and parsing it
+	 * conntaining the What3Words encoding after parsing it
 	 * in order to get the location as an instance of our
 	 * Location class
 	 * 
@@ -55,7 +55,7 @@ public class Sensor {
 	}
 	
 	/**
-	 * Returns the feature corresponding to the insntance of 
+	 * Returns the feature corresponding to the instance of 
 	 * the Sensor class if it has not been visited so that it 
 	 * has a grey colour and no symbol.
 	 * 
