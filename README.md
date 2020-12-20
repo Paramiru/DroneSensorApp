@@ -22,24 +22,35 @@ These subsections will help you get a copy of the project and understand how to 
 
 ### How to Install
 
-A step by step series of examples that tell you how to get a development environment running
+The first thing you should do is clone this repository into your local machine. You can do this with the following command:
 
 ```
-Give the example
+git clone https://github.com/Paramiru/ILP-2
 ```
 
-And repeat
+Once you have cloned the repository you should check your current version of Java. Recall I used Java 11 (LTS) for the project. You can check the version you are currently using running this command in the terminal.
 
 ```
-until finished
+java --version
 ```
+You do not have to worry about the dependencies since they are in the file pom.xml which you can find inside the aqmaps directory. Maven will take care of downloading anything you do not currently have so that you can run the project.
 
-End with an example of getting some data out of the system or using it for a little demo
+## Building the Project
+
+## Running the Project
 
 ## Built With
 
 * [Java 11](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html) - Latest Java version with Long Term Support.
 * [Maven](https://maven.apache.org/) - Dependency Management
+
+## Maven Dependencies
+
+* [Java Topology Suite (JTS)]
+* [Mapbox Java SDK]
+* [Java Tuples]
+* [Google Gson]
+
 
 ## Screenshots
 Sample flight path of the drone on 
