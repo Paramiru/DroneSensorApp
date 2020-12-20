@@ -42,8 +42,16 @@ End with an example of getting some data out of the system or using it for a lit
 * [Maven](https://maven.apache.org/) - Dependency Management
 
 ## Screenshots
+Sample flight path of the drone on 
+<!-- <br> -->
+<!-- <img src="https://github.com/athiyadeviyani/Informatics-Large-Practical/blob/master/stateful.png" width=500> -->
+<!-- <br> -->
+<!-- <br> -->
+<!-- <br>Sample flight path of the stateless drone on 10/10/2019 -->
+<!-- <br> -->
+<!-- <img src="https://github.com/athiyadeviyani/Informatics-Large-Practical/blob/master/stateless.png" width=500> -->
 
 ## Authors
 
-* **Pablo Miró** - *Initial work* - [Paramiru](https://github.com/Paramiru)
+* **Pablo Miró** - [Paramiru](https://github.com/Paramiru)
 
