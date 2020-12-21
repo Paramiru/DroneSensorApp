@@ -28,8 +28,22 @@ The aim of aqmaps is given a set of arguments corresponding to:
   <li> a set of coordinates (which are inside the limit of the confined area stated in the courswork document)</li>
   <li> a random seed</li>
   <li> the port in which the WebServer is running</li>
- </ul>
-  
+</ul>
+
+When running the application on a given day, two files will be created:
+
+<em>flightpath-DD-MM-YYYY.txt</em> This file should be at most 150 lines long. Each line is numbered, starting at 1. It contains each move of the drone in terms of the longitude and latitude of the drone before the move, the direction it chose to move, the longitude and latitude of the drone after the move, and the location of any sensor that is connected to after the move, or null otherwise. For example, the first line of this file could be:
+
+1,-3.1878,55.9444,110,-3.187902606042998,55.94468190778624,hurt.green.filer
+ 
+This says that the drone was initially at (−3.1878,55.9444), then decided to move in a north-westerly direction (110 degrees) to (−3.187902606042998,55.94468190778624), and after that move was completed it connected to the sensor at What3Words location "hurt.green.filer" to take readings from that sensor for plotting on the map.
+
+<em>readings-DD-MM-YYYY.geojson</em> This is a map in GeoJSON format which contains 33 markers at the locations of the 33 air-quality sensors which are specified in the file which is located on the web server at maps/YYYY/MM/DD/air-quality-data.json. Each of these markers is a GeoJSON Feature of type Point, coloured according to the convention presented in the coursework document.
+
+In addition to these 33 markers, there is one additional Feature of type LineString, which plots the flightpath of the drone as a list of longitude,latitude pairs.
+
+If you would like to render the map, you will have to print the JSON String which is being written to this specific file and copy it to <a href="https://github.com/Paramiru/ILP-2/blob/main/coursework-document.pdf">this website</a>.
+
 ## Getting Started
 
 These subsections will help you get a copy of the project and understand how to run it on your local machine for development and testing purposes.
