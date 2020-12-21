@@ -9,10 +9,10 @@
 
 ## Files
 <ul>
-  <li> <a href="https://github.com/Paramiru/ILP-2/blob/main/coursework-document.pdf">coursework-document.pdf</a> --> This pdf file contains the description followed to complete the project.
-  <li> <a href="https://github.com/Paramiru/ILP-2/blob/main/ilp-report.pdf">ilp-report.pdf</a> --> This report is made up of three sections which contain the algorithm used to program the drone, the class documentation and the software architecture used.
-  <li> <a href="https://github.com/Paramiru/ILP-2/tree/main/aqmaps">aqmaps</a> --> This directory contains the whole <em>air quality map</em> project.
-  <li> <a href="https://github.com/Paramiru/ILP-2/tree/main/WebServer">WebServer</a> --> Small web server used in the practical: you can find it in the following <a href="http://www.jibble.org/jibblewebserver.php">link</a>.
+  <li> <a href="https://github.com/Paramiru/Aqmaps/blob/main/coursework-document.pdf">coursework-document.pdf</a> --> This pdf file contains the description followed to complete the project.
+  <li> <a href="https://github.com/Paramiru/Aqmaps/blob/main/ilp-report.pdf">ilp-report.pdf</a> --> This report is made up of three sections which contain the algorithm used to program the drone, the class documentation and the software architecture used.
+  <li> <a href="https://github.com/Paramiru/Aqmaps/tree/main/aqmaps">aqmaps</a> --> This directory contains the whole <em>air quality map</em> project.
+  <li> <a href="https://github.com/Paramiru/Aqmaps/tree/main/WebServer">WebServer</a> --> Small web server used in the practical: you can find it in the following <a href="http://www.jibble.org/jibblewebserver.php">link</a>.
 </ul>
 
 ## Brief description of the air quality map
@@ -42,7 +42,7 @@ This says that the drone was initially at (−3.1878,55.9444), then decided to m
 
 In addition to these 33 markers, there is one additional Feature of type LineString, which plots the flightpath of the drone as a list of longitude,latitude pairs.
 
-If you would like to render the map, you will have to print the JSON String which is being written to this specific file and copy it to <a href="https://github.com/Paramiru/ILP-2/blob/main/coursework-document.pdf">this website</a>.
+If you would like to render the map, you will have to print the JSON String which is being written to this specific file and copy it to <a href="https://github.com/Paramiru/Aqmaps/blob/main/coursework-document.pdf">this website</a>.
 
 ## Getting Started
 
@@ -53,7 +53,7 @@ I will discuss how to clone this repository and set it up in any IDE of your cho
 
 The first thing you should do is clone this repository into your local machine. You can do this with the following command:
 ```
-git clone https://github.com/Paramiru/ILP-2
+git clone https://github.com/Paramiru/Aqmaps
 ```
 Once you have cloned the repository, you should check your current version of Java. I used Java 11 (LTS) for the project. You can check the version you are currently using running this command in the terminal.
 ```
