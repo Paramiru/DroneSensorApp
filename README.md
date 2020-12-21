@@ -103,7 +103,7 @@ Sample flight paths of the drone on
 <!-- <br> -->
 <br>Sample flight path of the stateless drone on 10/10/2019 
 <br>
-<img src="https://github.com/athiyadeviyani/Informatics-Large-Practical/blob/master/stateless.png" width=500> 
+<img src="./screenshots/27:03:2020.png" width=500> 
 
 ## Authors
 
