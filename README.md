@@ -96,14 +96,21 @@ where 01 01 2020 55.9444 -3.1878 5678 80 correspond to day, month, year, latitud
 
 
 ## Screenshots
-Sample flight paths of the drone on 
-<!-- <br> -->
-<!-- <img src="https://github.com/athiyadeviyani/Informatics-Large-Practical/blob/master/stateful.png" width=500> -->
-<!-- <br> -->
-<!-- <br> -->
-<br>Sample flight path of the stateless drone on 10/10/2019 
-<br>
-<img src="./screenshots/27:03:2020.png" width=500> 
+
+<p align="center">
+  <img width="460" src="./screenshots/28:12:2021.png">
+  <br>
+  Drone path on 28/12/2021
+</p>
+
+<hr>
+
+<p align="center">
+  <img width="460" src="./screenshots/27:03:2020.png">
+  <br>
+  Drone path on 27/03/2020
+</p>
+
 
 ## Authors
 
