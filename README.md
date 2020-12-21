@@ -1,4 +1,4 @@
-# Informatics Large Practical (2020 - 2021)
+# Informatics Large Practical - CW 2 (2020 - 2021)
 
 <b>Course Name:</b> Informatics Large Practical
 <br><b>Coursework Name:</b> Air Quality Map - Aqmaps
@@ -8,7 +8,6 @@
 <br><b>Overall Course Mark:</b> N/A
 
 ## Files
-
 <ul>
   <li> <a href="https://github.com/Paramiru/ILP-2/blob/main/coursework-document.pdf">coursework-document.pdf</a> --> This pdf file contains the description followed to complete the project.
   <li> <a href="https://github.com/Paramiru/ILP-2/blob/main/ilp-report.pdf">ilp-report.pdf</a> --> This report is made up of three sections which contain the algorithm used to program the drone, the class documentation and the software architecture used.
@@ -18,7 +17,6 @@
 
 ## Brief description of the air quality map
 The purpose of aqmaps is to make the drone visit a set of 33 sensors which will be fetched from the web server according to which day the drone is collecting them. This sensors simulate the level of pollution that part of the city has and they are used for a fictitious research study. 
-
 
 The drone has a maximum of 150 moves it can make to visit every sensor and go back to the original position, which will be the optimal solution. You can find all the other constraints by taking a look a the coursework document.
 
@@ -103,9 +101,9 @@ Sample flight paths of the drone on
 <!-- <img src="https://github.com/athiyadeviyani/Informatics-Large-Practical/blob/master/stateful.png" width=500> -->
 <!-- <br> -->
 <!-- <br> -->
-<!-- <br>Sample flight path of the stateless drone on 10/10/2019 -->
-<!-- <br> -->
-<!-- <img src="https://github.com/athiyadeviyani/Informatics-Large-Practical/blob/master/stateless.png" width=500> -->
+<br>Sample flight path of the stateless drone on 10/10/2019 
+<br>
+<img src="https://github.com/athiyadeviyani/Informatics-Large-Practical/blob/master/stateless.png" width=500> 
 
 ## Authors
 
