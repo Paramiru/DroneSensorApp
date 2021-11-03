@@ -5,7 +5,7 @@
 <br><b>Objective:</b> Program a drone so that it can read information from several sensors and come back to the starting location.
 <br><b>Programming Language:</b> Java 11 - Latest version with long term support available.
 <br><b>Final Mark:</b> 22/25 - made a small mistake with a Maven dependency for a different Java version.
-<br><b>Overall Course Mark:</b> 93/100 - Grade A1
+<br><b>Overall Course Mark:</b> 92/100 - Grade A1
 
 ## Files
 <ul>
